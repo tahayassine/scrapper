@@ -1,10 +1,9 @@
 import express from 'express';
-import * as dotenv from 'dotenv';
 import getNewInters from './scrapingSciptes/getNewInter';
+import envConfig from './config/envConfig';
+import XlsService from './excelService/excelService';
 
-dotenv.config();
-
-const port: number = parseInt(process.env.PORT || '3000', 10);
+const port = envConfig.PORT;
 
 const app = express();
 
@@ -12,9 +11,15 @@ app.get('/test', (req, res) => {
   test(req, res);
 });
 
-function test(req: express.Request, res: express.Response) {
-  getNewInters();
-  res.send('This is a test');
+async function test(req: express.Request, res: express.Response) {
+  await getNewInters();
+  const excelService = new XlsService();
+  let excelData = await excelService.readXlsToJson('./download/export.xls');
+  console.log('test4');
+  console.log(excelData);
+  console.log('test5');
+  res.send(excelData);
+  // res.send('This is a test');
 }
 
 app.listen(port, () => {

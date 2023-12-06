@@ -1,10 +1,11 @@
 import * as XLSX from 'xlsx';
+import * as fs from 'fs';
 
 // create class to read xls file and return json data
 class XlsService {
   constructor() {}
-  readXls(filePath: string) {
-    filePath = './download/export.xls';
+  async readXlsToJson(filePath: string) {
+    // filePath = './download/export.xls';
     try {
       const workbook = XLSX.readFile(filePath);
       const sheetNameList = workbook.SheetNames;
@@ -15,6 +16,16 @@ class XlsService {
       return jsonData;
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async deleteFile(filePath: string) {
+    // filePath = './download/export.xls';
+    try {
+      fs.unlinkSync(filePath);
+      //file removed
+    } catch (err) {
+      console.error(err);
     }
   }
 }

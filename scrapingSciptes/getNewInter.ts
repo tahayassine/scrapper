@@ -1,6 +1,8 @@
 import path from 'path';
 import launchBrowser from './launchBrowser';
 
+// get env variables
+ 
 const prestinfoUrl =
   'https://web.prestinfo.eu/WD120AWP/WD120Awp.exe/CONNECT/Pre_Extranet';
 
@@ -15,7 +17,6 @@ const getNewInters = async () => {
   const page = await browser.newPage();
 
   // On this new page:
-  // - open the "http://quotes.toscrape.com/" website
   // - wait until the dom content is loaded (HTML is ready)
   await page.goto(prestinfoUrl, {
     waitUntil: 'networkidle2',
@@ -27,9 +28,9 @@ const getNewInters = async () => {
   await page.focus('#A16');
   await page.keyboard.type(password);
   await page.keyboard.press('Enter');
+
   // waiting new page
   await page.waitForNavigation({ waitUntil: 'networkidle2' });
-  // await page.waitForNavigation();
   const client = await page.target().createCDPSession();
   await client.send('Page.setDownloadBehavior', {
     behavior: 'allow',
@@ -39,11 +40,13 @@ const getNewInters = async () => {
   // select the first image and click
   // src="/PRE_EXTRANET_WEB/res/ConversionTable.GIF"
   await page.click('img[src="/PRE_EXTRANET_WEB/res/ConversionTable.GIF"]');
-  // await page.waitForNavigation();
+
   // Option1
   await page.click('#Option1');
   // close the browser
-  await browser.close();
+  console.log('before close');
+  browser.close().catch((err) => console.log(err));
+  console.log('after close');
 };
 
 export default getNewInters;
