@@ -8,6 +8,8 @@ WORKDIR /app
 # Copies package.json and package-lock.json to Docker environment
 COPY package*.json ./
 
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
 # Install puppeteer, don't install Chromium as it will be installed manually later
 RUN npm install puppeteer --no-install-recommends
 RUN npm install
