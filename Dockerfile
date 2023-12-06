@@ -10,6 +10,7 @@ COPY package*.json ./
 
 # Install puppeteer, don't install Chromium as it will be installed manually later
 RUN npm install puppeteer --no-install-recommends
+RUN npm install
 
 # Copy app source to Docker environment
 COPY . .
@@ -62,6 +63,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     xdg-utils \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Run your application when container launches
 CMD [ "ts-node", "server.ts" ]
