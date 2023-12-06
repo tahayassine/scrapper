@@ -12,11 +12,14 @@ COPY package*.json ./
 RUN npm install puppeteer --no-install-recommends
 RUN npm install
 
+# Install ts-node globally in the container
+RUN npm install -g ts-node
+
 # Copy app source to Docker environment
 COPY . .
 
-# You can expose any port your app is configured to use, like 8080 for example
-EXPOSE 8080
+# You can expose any port your app is configured to use, like 3000 for example
+EXPOSE 3000
 
 # Installing Chromium dependencies
 RUN apt-get update && apt-get install -y \
@@ -66,5 +69,4 @@ RUN apt-get update && apt-get install -y \
 
 
 # Run your application when container launches
-CMD [ "ts-node", "server.ts" ]
-
+CMD [ "npx", "ts-node", "server.ts" ]
