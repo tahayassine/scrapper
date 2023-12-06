@@ -43,6 +43,9 @@ const getNewInters = async () => {
 
   // Option1
   await page.click('#Option1');
+  console.log('before waitForTimeout');
+  await page.waitForTimeout(5000);
+  console.log('after waitForTimeout');
   // close the browser
   console.log('before close');
   browser.close().catch((err) => console.log(err));
